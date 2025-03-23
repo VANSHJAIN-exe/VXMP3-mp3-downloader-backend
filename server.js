@@ -43,10 +43,6 @@ app.post('/download', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
 const express = require("express");
 const cors = require("cors");
 
@@ -56,4 +52,6 @@ app.use(cors({
     origin: "https://vxmp3.vercel.app",
     credentials: true,
 }));
+
+app.listen(3000, () => console.log("Server is running on port 3000"));
 
