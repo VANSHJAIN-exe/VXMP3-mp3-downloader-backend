@@ -5,30 +5,28 @@ const fs = require('fs');
 const app = express();
 const port = 5000;
 
+app.use(cors({
+    origin: "https://vxmp3.vercel.app",
+    credentials: true,
+}));
 
-app.use(cors());
 app.use(express.json());
-
 
 app.post('/download', async (req, res) => {
     const { url } = req.body;
-
  
     if (!url || !url.includes('youtube.com/watch?v=')) {
         return res.status(400).json({ error: 'Invalid YouTube URL' });
     }
-
     try {
         
         const output = `./${Date.now()}.mp3`;
-
         
         await exec(url, {
             extractAudio: true,
             audioFormat: 'mp3',
             output: output
         });
-
         res.download(output, (err) => {
             if (err) {
                 console.error('Error sending file:', err);
@@ -43,16 +41,4 @@ app.post('/download', async (req, res) => {
     }
 });
 
-const express = require("express");
-const cors = require("cors");
-
-const app = express();
-
-app.use(cors({
-    origin: "https://vxmp3.vercel.app",
-    credentials: true,
-}));
-
-app.listen(3000, () => console.log("Server is running on port 3000"));
-
-
+app.listen(port, () => console.log(`Server is running on port ${port}`));
